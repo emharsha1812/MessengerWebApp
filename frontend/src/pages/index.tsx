@@ -3,13 +3,25 @@ import Head from "next/head";
 import Image from "next/image";
 import { useSession, getSession, signIn, signOut } from "next-auth/react";
 import { Box } from "@chakra-ui/react";
+import Chat from "../components/Chat/Chat";
+import Auth from "../components/Auth/Auth";
 
 const Home: NextPage = () => {
-  const { data } = useSession();
+  const { data: session } = useSession();
 
-  console.log("HERE IS DATA", data);
+  console.log("HERE IS SESSION", session);
 
-  return <Box border="1px solid red">Here is a box</Box>;
+  const reloadSession = () => {};
+
+  return (
+    <Box>
+      {session?.user.username ? (
+        <Chat />
+      ) : (
+        <Auth reloadSession={reloadSession} session={session} />
+      )}
+    </Box>
+  );
 };
 
 export default Home;
